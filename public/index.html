@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElectroTech - Servicio Técnico & Repuestos de Lavarropas</title>
+  
+  <!-- Logo vectorial SVG inline para Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%232563eb'/><circle cx='50' cy='55' r='25' fill='%23ffffff' stroke='%231d4ed8' stroke-width='6'/><circle cx='50' cy='55' r='16' fill='%2393c5fd'/><rect x='25' y='20' width='50' height='10' rx='3' fill='%23ffffff'/><circle cx='35' cy='25' r='2' fill='%232563eb'/><circle cx='43' cy='25' r='2' fill='%232563eb'/></svg>">
+  
+  <!-- Iconos Lucide (CDN) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-theme">
+
+  <!-- ENCABEZADO Y NAVEGACIÓN -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo">
+        <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="var(--primary-color)"/>
+          <circle cx="50" cy="55" r="25" fill="#ffffff" stroke="var(--primary-dark)" stroke-width="5"/>
+          <circle cx="50" cy="55" r="16" fill="#93c5fd"/>
+          <rect x="25" y="20" width="50" height="10" rx="3" fill="#ffffff"/>
+          <circle cx="35" cy="25" r="2.5" fill="var(--primary-color)"/>
+          <circle cx="43" cy="25" r="2.5" fill="var(--primary-color)"/>
+        </svg>
+        <span class="brand-name">Electro<span>Fix</span></span>
+      </a>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#servicios" class="nav-link">Servicios</a>
+        <a href="#catalogo" class="nav-link">Lavarropas & Repuestos</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Botón Toggle Modo Oscuro / Claro -->
+        <button id="theme-toggle" class="btn-theme" aria-label="Cambiar tema">
+          <i data-lucide="moon" id="theme-icon"></i>
+        </button>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Menú">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container hero-content">
+      <h1>Servicio Técnico Especializado en Lavarropas</h1>
+      <p>Reparaciones con garantía, venta de equipos nuevos, usados seleccionados y repuestos originales.</p>
+      <div class="hero-buttons">
+        <a href="https://wa.me/5491122334455?text=Hola!%20Necesito%20asistencia%20técnica%20para%20mi%20lavarropas." target="_blank" class="btn btn-whatsapp">
+          <i data-lucide="message-circle"></i> Consulta Inmediata por WhatsApp
+        </a>
+        <a href="#catalogo" class="btn btn-outline">Ver Catálogo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS TÉCNICOS -->
+  <section id="servicios" class="section">
+    <div class="container">
+      <h2 class="section-title">Nuestros Servicios Técnicos</h2>
+      <div class="grid grid-services" id="services-container">
+        <!-- Se carga dinámicamente con JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO DINÁMICO (LAVARROPAS Y REPUESTOS) -->
+  <section id="catalogo" class="section bg-alt">
+    <div class="container">
+      <h2 class="section-title">Lavarropas & Repuestos</h2>
+      
+      <!-- Filtros -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="lavarropas">Lavarropas</button>
+        <button class="filter-btn" data-filter="repuesto">Repuestos</button>
+        <button class="filter-btn" data-filter="nuevo">Nuevos</button>
+        <button class="filter-btn" data-filter="usado">Usados</button>
+      </div>
+
+      <div class="grid grid-products" id="products-container">
+        <!-- Se carga dinámicamente desde data.js a través de app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULARIO DE CONSULTAS Y CONTACTO -->
+  <section id="contacto" class="section">
+    <div class="container">
+      <h2 class="section-title">Envíanos tu Consulta</h2>
+      <div class="contact-wrapper">
+        <form id="contact-form" class="contact-form">
+          <div class="form-group">
+            <label for="nombre">Nombre Completo</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono / WhatsApp</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="Ej. 11 1234 5678" required>
+          </div>
+          <div class="form-group">
+            <label for="servicio">Tipo de Consulta</label>
+            <select id="servicio" name="servicio">
+              <option value="Reparación en Domicilio">Reparación a domicilio</option>
+              <option value="Compra de Repuesto">Compra de repuesto</option>
+              <option value="Compra de Lavarropas">Compra de lavarropas (Nuevo/Usado)</option>
+              <option value="Otro">Otro motivo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mensaje">Detalle de la falla o repuesto solicitado</label>
+            <textarea id="mensaje" rows="4" placeholder="Marca, modelo o síntomas del lavarropas..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i data-lucide="send"></i> Enviar Mensaje por WhatsApp
+          </button>
+        </form>
+
+        <div class="contact-info">
+          <h3>Información de Contacto</h3>
+          <p><i data-lucide="map-pin"></i> Av. Principal 1234, Buenos Aires</p>
+          <p><i data-lucide="clock"></i> Lun a Vie: 08:00 - 18:00 hs | Sáb: 09:00 - 13:00 hs</p>
+          <p><i data-lucide="phone"></i> +54 9 11 2233-4455</p>
+
+          <div class="social-links">
+            <h4>Síguenos en Redes Sociales</h4>
+            <div class="social-buttons">
+              <a href="https://facebook.com" target="_blank" class="social-btn facebook" aria-label="Facebook">
+                <i data-lucide="facebook"></i> Facebook
+              </a>
+              <a href="https://instagram.com" target="_blank" class="social-btn instagram" aria-label="Instagram">
+                <i data-lucide="instagram"></i> Instagram
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 ElectroFix - Servicio Técnico de Lavarropas. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- BOTÓN FLOTANTE DE WHATSAPP -->
+  <a href="https://wa.me/5491122334455?text=Hola!%20Tengo%20una%20consulta%20general." class="whatsapp-float" target="_blank" aria-label="WhatsApp Directo">
+    <i data-lucide="message-circle"></i>
+  </a>
+
+  <!-- SCRIPTS -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
