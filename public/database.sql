@@ -3,11 +3,11 @@
 -- ========================================================
 
 -- 1. Creación de la Base de Datos
-CREATE DATABASE IF NOT EXISTS `electrofix_db` 
+CREATE DATABASE IF NOT EXISTS `api_electrofix` 
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_unicode_ci;
 
-USE `electrofix_db`;
+USE `api_electrofix`;
 
 -- --------------------------------------------------------
 
