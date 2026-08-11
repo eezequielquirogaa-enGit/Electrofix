@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acceso Administrativo - ElectroFix</title>
-  
+
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%232563eb'/><circle cx='50' cy='55' r='25' fill='%23ffffff' stroke='%231d4ed8' stroke-width='6'/><circle cx='50' cy='55' r='16' fill='%2393c5fd'/><rect x='25' y='20' width='50' height='10' rx='3' fill='%23ffffff'/><circle cx='35' cy='25' r='2' fill='%232563eb'/><circle cx='43' cy='25' r='2' fill='%232563eb'/></svg>">
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Estilos específicos para centrar el Login */
     .login-container {
       min-height: 100vh;
       display: flex;
@@ -23,7 +22,7 @@
       border-radius: var(--radius);
       padding: 2.5rem;
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       box-shadow: var(--shadow);
     }
     .login-header {
@@ -33,6 +32,39 @@
     .login-header .logo-icon {
       margin: 0 auto 0.5rem auto;
       display: block;
+    }
+    .auth-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 0.6rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .auth-tab.active {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      border-color: var(--primary-color);
+    }
+    .auth-section {
+      display: none;
+    }
+    .auth-section.active {
+      display: block;
+    }
+    .form-note {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 1.25rem;
     }
   </style>
 </head>
@@ -50,27 +82,61 @@
           <circle cx="43" cy="25" r="2.5" fill="var(--primary-color)"/>
         </svg>
         <h2 class="brand-name">Electro<span>Fix</span> Admin</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem;">Acceso al Panel de Control</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem;">Control de Acceso al Panel</p>
       </div>
 
-      <form id="login-form" class="contact-form">
-        <div class="form-group">
-          <label for="username">Usuario / Email</label>
-          <input type="text" id="username" name="username" placeholder="admin@electrofix.com" required>
-        </div>
+      <div class="auth-tabs">
+        <button type="button" id="tab-login" class="auth-tab active">Iniciar Sesión</button>
+        <button type="button" id="tab-register" class="auth-tab">Registrarse</button>
+      </div>
 
-        <div class="form-group">
-          <label for="password">Contraseña</label>
-          <input type="password" id="password" name="password" placeholder="••••••••" required>
-        </div>
+      <!-- SECCIÓN: INICIAR SESIÓN -->
+      <section id="section-login" class="auth-section active">
+        <form id="login-form" class="contact-form">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" name="email" placeholder="admin@example.com" required>
+          </div>
 
-        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
-          <i data-lucide="log-in"></i> Iniciar Sesión
-        </button>
-      </form>
+          <div class="form-group">
+            <label for="login-password">Contraseña</label>
+            <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
+            <i data-lucide="log-in"></i> Ingresar
+          </button>
+        </form>
+        <p class="form-note">¿No tenés cuenta? <a href="#" id="link-to-register" style="color: var(--primary-color);">Registrate aquí</a></p>
+      </section>
+
+      <!-- SECCIÓN: REGISTRO DE NUEVOS ADMINISTRADORES -->
+      <section id="section-register" class="auth-section">
+        <form id="register-form" class="contact-form">
+          <div class="form-group">
+            <label for="register-nombre">Nombre completo</label>
+            <input type="text" id="register-nombre" name="nombre" placeholder="Ej. María García" required>
+          </div>
+
+          <div class="form-group">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" name="email" placeholder="maria@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="register-password">Contraseña</label>
+            <input type="password" id="register-password" name="password" placeholder="Mínimo 6 caracteres" minlength="6" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
+            <i data-lucide="user-plus"></i> Crear Cuenta Administrador
+          </button>
+        </form>
+        <p class="form-note">¿Ya tenés cuenta? <a href="#" id="link-to-login" style="color: var(--primary-color);">Iniciá sesión aquí</a></p>
+      </section>
 
       <div style="text-align: center; margin-top: 1.5rem;">
-        <a href="index.html" class="nav-link" style="font-size: 0.85rem;">&larr; Volver a la página principal</a>
+        <a href="../index.html" class="nav-link" style="font-size: 0.85rem;">&larr; Volver a la página principal</a>
       </div>
     </div>
   </div>
@@ -79,16 +145,112 @@
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
 
-      // Cargar preferencia de tema almacenada
       if (localStorage.getItem("theme") === "dark") {
         document.body.classList.add("dark-theme");
       }
 
-      const loginForm = document.getElementById("login-form");
-      loginForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        // Redirecciona al panel administrativo (Próximamente se conectará con autenticación MySQL/JWT)
+      // Si ya existe una sesión activa, ir directo al panel
+      if (localStorage.getItem("token")) {
         window.location.href = "admin.html";
+        return;
+      }
+
+      const tabLogin = document.getElementById("tab-login");
+      const tabRegister = document.getElementById("tab-register");
+      const sectionLogin = document.getElementById("section-login");
+      const sectionRegister = document.getElementById("section-register");
+      const linkToRegister = document.getElementById("link-to-register");
+      const linkToLogin = document.getElementById("link-to-login");
+
+      function mostrarLogin() {
+        tabLogin.classList.add("active");
+        tabRegister.classList.remove("active");
+        sectionLogin.classList.add("active");
+        sectionRegister.classList.remove("active");
+      }
+
+      function mostrarRegistro() {
+        tabRegister.classList.add("active");
+        tabLogin.classList.remove("active");
+        sectionRegister.classList.add("active");
+        sectionLogin.classList.remove("active");
+      }
+
+      tabLogin.addEventListener("click", mostrarLogin);
+      tabRegister.addEventListener("click", mostrarRegistro);
+      linkToRegister.addEventListener("click", (e) => { e.preventDefault(); mostrarRegistro(); });
+      linkToLogin.addEventListener("click", (e) => { e.preventDefault(); mostrarLogin(); });
+
+      /* ── API URL ──────────────────────────────────── */
+      const API_URL = "http://api_electrofix.localhost";
+
+      /* ── LOGIN ────────────────────────────────────── */
+      document.getElementById("login-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value;
+
+        if (!email || !password) {
+          alert("Por favor complete sus credenciales");
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+          });
+
+          const result = await response.json();
+
+          // El token llega en result.data.token
+          if (response.ok && result.status === "success" && result.data.token) {
+            localStorage.setItem("token", result.data.token);
+            localStorage.setItem("user", JSON.stringify(result.data.user || {}));
+            window.location.href = "admin.html";
+          } else {
+            alert(result.message || "Credenciales incorrectas");
+          }
+        } catch (error) {
+          console.error("Fallo de red:", error);
+          alert("Error de conexión con el servidor");
+        }
+      });
+
+      /* ── REGISTRO DE NUEVO ADMINISTRADOR ───────────── */
+      document.getElementById("register-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const nombre = document.getElementById("register-nombre").value.trim();
+        const email = document.getElementById("register-email").value.trim();
+        const password = document.getElementById("register-password").value;
+
+        if (!nombre || !email || !password) {
+          alert("Por favor complete todos los campos");
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nombre, email, password })
+          });
+
+          const result = await response.json();
+
+          if (response.ok && result.status === "success") {
+            alert("Usuario registrado correctamente. Ahora puede iniciar sesión.");
+            document.getElementById("register-form").reset();
+            document.getElementById("login-email").value = email;
+            mostrarLogin();
+          } else {
+            alert(result.message || "No se pudo registrar el usuario");
+          }
+        } catch (error) {
+          console.error("Fallo de red:", error);
+          alert("Error de conexión con el servidor");
+        }
       });
     });
   </script>

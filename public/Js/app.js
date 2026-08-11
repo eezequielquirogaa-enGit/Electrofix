@@ -1,3 +1,12 @@
+// Teléfono de contacto de la empresa
+const TELEFONO_WHATSAPP = "5491122334455";
+
+// URL base de la API REST de ElectroFix
+const API_URL = "http://api_electrofix.localhost";
+
+// Almacena los productos traídos desde la base de datos (usado por los filtros)
+let PRODUCTOS_DATA = [];
+
 document.addEventListener("DOMContentLoaded", () => {
   // Inicialización de iconos Lucide
   lucide.createIcons();
@@ -13,30 +22,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterBtns = document.querySelectorAll(".filter-btn");
 
   /* ==========================================
-     1. CARGA DINÁMICA DE SERVICIOS
+     1. CARGA DINÁMICA DE SERVICIOS DESDE LA API
      ========================================== */
-  function loadServices() {
-    servicesContainer.innerHTML = SERVICIOS_DATA.map(service => `
-      <div class="card card-content">
-        <div style="color: var(--primary-color); margin-bottom: 0.5rem;">
-          <i data-lucide="${service.icono}" style="width: 32px; height: 32px;"></i>
-        </div>
-        <h3 class="card-title">${service.titulo}</h3>
-        <p class="card-desc">${service.descripcion}</p>
-        <a href="https://wa.me/${TELEFONO_WHATSAPP}?text=Hola!%20Consulta%20por%20servicio%3A%20${encodeURIComponent(service.titulo)}" target="_blank" class="btn btn-outline" style="width: 100%; text-align: center; justify-content: center;">
-          Consultar Servicio
-        </a>
-      </div>
-    `).join('');
+  async function loadServices() {
+    try {
+      const response = await fetch(`${API_URL}/servicios`);
+      const result = await response.json();
+
+      if (result.status === "success" && Array.isArray(result.data)) {
+        servicesContainer.innerHTML = result.data.map(service => `
+          <div class="card card-content">
+            <div style="color: var(--primary-color); margin-bottom: 0.5rem;">
+              <i data-lucide="${service.icono}" style="width: 32px; height: 32px;"></i>
+            </div>
+            <h3 class="card-title">${service.titulo}</h3>
+            <p class="card-desc">${service.descripcion}</p>
+            <a href="https://wa.me/${TELEFONO_WHATSAPP}?text=Hola!%20Consulta%20por%20servicio%3A%20${encodeURIComponent(service.titulo)}" target="_blank" class="btn btn-outline" style="width: 100%; text-align: center; justify-content: center;">
+              Consultar Servicio
+            </a>
+          </div>
+        `).join('');
+        lucide.createIcons();
+      } else {
+        servicesContainer.innerHTML = `<p style="color: var(--text-muted);">No se pudieron cargar los servicios.</p>`;
+      }
+    } catch (error) {
+      console.error("Error al cargar servicios:", error);
+      servicesContainer.innerHTML = `<p style="color: var(--text-muted);">Error de conexión con el servidor de servicios.</p>`;
+    }
   }
 
   /* ==========================================
-     2. CARGA DINÁMICA DE PRODUCTOS (LAVARROPAS Y REPUESTOS)
+     2. CARGA DINÁMICA DE PRODUCTOS DESDE LA API
      ========================================== */
   function renderProducts(items) {
     productsContainer.innerHTML = items.map(item => {
-      const mensajeWA = encodeURIComponent(`Hola! Estoy interesado en: ${item.nombre} ($${item.precio.toLocaleString('es-AR')}) - Estado: ${item.estado}. ¿Sigue disponible?`);
-      
+      const mensajeWA = encodeURIComponent(`Hola! Estoy interesado en: ${item.nombre} ($${Number(item.precio).toLocaleString('es-AR')}) - Estado: ${item.estado}. ¿Sigue disponible?`);
+
       return `
         <div class="card">
           <div class="card-img-wrapper">
@@ -47,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <h3 class="card-title">${item.nombre}</h3>
             <p class="card-desc">${item.descripcion}</p>
             <div class="card-footer">
-              <span class="card-price">$${item.precio.toLocaleString('es-AR')}</span>
+              <span class="card-price">$${Number(item.precio).toLocaleString('es-AR')}</span>
               <a href="https://wa.me/${TELEFONO_WHATSAPP}?text=${mensajeWA}" target="_blank" class="btn btn-whatsapp">
                 <i data-lucide="shopping-cart"></i> Comprar
               </a>
@@ -59,6 +81,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Re-renderizar iconos generados dinámicamente
     lucide.createIcons();
+  }
+
+  async function loadProducts() {
+    try {
+      const response = await fetch(`${API_URL}/productos`);
+      const result = await response.json();
+
+      if (result.status === "success" && Array.isArray(result.data)) {
+        PRODUCTOS_DATA = result.data;
+        renderProducts(PRODUCTOS_DATA);
+      } else {
+        productsContainer.innerHTML = `<p style="color: var(--text-muted);">No se pudieron cargar los productos.</p>`;
+      }
+    } catch (error) {
+      console.error("Error al cargar productos:", error);
+      productsContainer.innerHTML = `<p style="color: var(--text-muted);">Error de conexión con el servidor de productos.</p>`;
+    }
   }
 
   /* ==========================================
@@ -85,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
   themeToggleBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-theme");
     const isDark = document.body.classList.contains("dark-theme");
-    
+
     // Cambiar icono
     themeIcon.setAttribute("data-lucide", isDark ? "sun" : "moon");
     lucide.createIcons();
@@ -126,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.open(`https://wa.me/${TELEFONO_WHATSAPP}?text=${textoArmado}`, "_blank");
   });
 
-  // Carga Inicial
+  // Carga Inicial desde la API
   loadServices();
-  renderProducts(PRODUCTOS_DATA);
+  loadProducts();
 });
