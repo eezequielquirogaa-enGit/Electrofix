@@ -7,9 +7,17 @@ const API_URL = "http://api_electrofix.localhost";
 // Almacena los productos traídos desde la base de datos (usado por los filtros)
 let PRODUCTOS_DATA = [];
 
+// Inicializa los íconos Lucide solo si el CDN cargó correctamente.
+// Evita que un fallo del CDN bloquee la carga de los datos de la API.
+function refreshIcons() {
+  if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+    lucide.createIcons();
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicialización de iconos Lucide
-  lucide.createIcons();
+  // Inicialización de iconos Lucide (a prueba de fallos)
+  refreshIcons();
 
   // Referencias al DOM
   const servicesContainer = document.getElementById("services-container");
@@ -42,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </a>
           </div>
         `).join('');
-        lucide.createIcons();
+        refreshIcons();
       } else {
         servicesContainer.innerHTML = `<p style="color: var(--text-muted);">No se pudieron cargar los servicios.</p>`;
       }
@@ -80,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }).join('');
 
     // Re-renderizar iconos generados dinámicamente
-    lucide.createIcons();
+    refreshIcons();
   }
 
   async function loadProducts() {
@@ -127,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Cambiar icono
     themeIcon.setAttribute("data-lucide", isDark ? "sun" : "moon");
-    lucide.createIcons();
+    refreshIcons();
 
     // Guardar preferencia local
     localStorage.setItem("theme", isDark ? "dark" : "light");
